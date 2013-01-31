@@ -1,4 +1,6 @@
 #include <iostream>
+#include <string>
+#include <sstream>
 
 class Matrix
 {
@@ -112,7 +114,8 @@ int main()
 
 void Matrix::getBeef()
 {
-	printf("I am a %i x %i matrix.\n", y, x);	
+	printf("\n");
+//	printf("I am a %i x %i matrix.\n", y, x);	
 	printContents();
 }
 
@@ -125,7 +128,16 @@ void Matrix::printContents()
 		printf("[ ");
 		for (j=0; j<x; j++)
 		{
-			printf("[%i] ", matrix[x*i+j]);
+			std::stringstream convert;
+			convert << (matrix[x*i+j]);
+			
+			std::string s = convert.str(); 
+			while (s.size() <= 3)
+			{
+				s = " " + s;
+			}
+
+			std::cout << s;
 		}
 		printf("]\n");
 	}
