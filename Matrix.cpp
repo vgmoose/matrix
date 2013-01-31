@@ -9,7 +9,7 @@ class Matrix
 	Matrix(int y, int x);
 	void multiply(int row, int factor);
 	void scale(int row, double factor);
-	void divide(int row, int factor);
+	void divide(int row, double factor);
 	void addRow(int dest, int operand, int factor);
 	void getBeef();
 	void printContents();
@@ -19,9 +19,8 @@ class Matrix
 
 void Matrix::addRow(int dest, int operand, int factor)
 {
-	dest = dest-1;
-	operand = operand-1;
-
+	dest--;
+	operand--;
 	int i;
 	for (i=0; i<x; i++)
 		matrix[dest*x+i] = matrix[dest*x+i] + factor*matrix[operand*x+i];
@@ -31,14 +30,17 @@ void Matrix::subRow(int dest, int operand, int factor)
 {
 	addRow(dest, operand, -factor);
 }
+
 void Matrix::scale(int row, double factor)
 {
+	row--;
+
 	int i;
 	for (i=0; i<x; i++)
 		matrix[row*x+i] = matrix[row*x+i]*factor;
 }
 
-void Matrix::divide(int row, int factor)
+void Matrix::divide(int row, double factor)
 {
 	scale(row, 1/factor);	
 }
@@ -68,6 +70,21 @@ void doMath()
 	e->addRow(4, 1, 2);
 	
 	e->getBeef();
+
+	e->subRow(1, 3, 3);
+	e->addRow(2, 3, 4);
+	e->subRow(4, 3, 2);
+
+	e->getBeef();
+
+	e->divide(4, 2);
+	e->getBeef();
+	e->subRow(1, 4, 1);
+	e->addRow(2, 4, 2);
+	
+	e->getBeef();
+
+	
 }
 void Matrix::setRow(int row, int* rowContents)
 {
