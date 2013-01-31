@@ -19,6 +19,9 @@ class Matrix
 
 void Matrix::addRow(int dest, int operand, int factor)
 {
+	dest = dest-1;
+	operand = operand-1;
+
 	int i;
 	for (i=0; i<x; i++)
 		matrix[dest*x+i] = matrix[dest*x+i] + factor*matrix[operand*x+i];
@@ -47,11 +50,24 @@ void Matrix::multiply(int row, int factor)
 
 void doMath()
 {
-	Matrix* m = new Matrix(4, 5);
-	m->subRow(2, 1, 1);
-	m->subRow(3, 1, 2);
-	m->addRow(4, 1, 2);
-	m->getBeef();
+	Matrix* e = new Matrix(4,5);
+
+	int array[] = {1, 1, 1, 3, 1};
+	e->setRow(0, array);
+	int array2[] = {1, -1, -3, -1, -1};	
+	e->setRow(1, array2);
+	int array3[] = {2, 2, 2, 7, 1};
+	e->setRow(2, array3);
+	int array4[] = {-2, 0, 2, -4, 2};
+	e->setRow(3, array4);
+
+	e->getBeef();
+
+	e->subRow(2, 1, 1);
+	e->subRow(3, 1, 2);
+	e->addRow(4, 1, 2);
+	
+	e->getBeef();
 }
 void Matrix::setRow(int row, int* rowContents)
 {
@@ -73,21 +89,8 @@ Matrix::Matrix(int y, int x)
 
 int main()
 {
-	Matrix* e = new Matrix(4,5);
-	e->getBeef();
+	doMath();
 
-	int array[] = {1, 0, 3, 2, 2};
-	e->setRow(0, array);
-	int array2[] = {0, 1, -4, -3, -9};	
-	e->setRow(1, array2);
-	int array3[] = {2, -2, 18, 10, 38};
-	e->setRow(2, array3);
-	int array4[] = {0, -1, 4, 2, -3};
-	e->setRow(3, array4);
-	e->getBeef();
-
-	e->divide(0, 2);
-	e->getBeef();
 }
 
 void Matrix::getBeef()
