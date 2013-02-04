@@ -6,9 +6,9 @@ class Matrix
 {
 public:
 	
-	int* matrix;
+	float* matrix;
 	int x, y;
-	int* oldmatrix;
+	float* oldmatrix;
 	
     std::string* steps;
     
@@ -20,12 +20,21 @@ public:
 	void addRow(int dest, int operand, int factor);
 	void getBeef();
 	void printContents();
-	void setRow(int row, int* rowContents);
+	void setRow(int row, float* rowContents);
 	void subRow(int dest, int operand, int factor);
 	void solve();
 	void copy();
+	void setMatrix(float* incoming);
 };
 
+void Matrix::setMatrix(float* incoming)
+{
+	int i;	
+	for (i=0; i<x*y; i++)
+	{
+		matrix[i] = incoming[i];
+	}
+}
 // This method is from rosetta code
 std::string to_roman(int value)
 {
@@ -65,12 +74,36 @@ void Matrix::reset()
 
 void Matrix::solve()
 {
-	int i;
-	for (i=0; i<x; i++)
+	int i,j,k;
+	for (i=0; i<y; i++)
 	{
-        //		while (matrix[i+x*
+		for (j=0; j<x; j++)
+		{
+			if (matrix[j+x*i] != 0)
+			{
+			int a = matrix[j+x*i];
+			if (a!=1)
+			{
+				divide(i+1,a);
+				//i--;
+				printf("%i", i);
+				getBeef();
+			}
+			for (k=0; k<y; k++)
+			{
+				if (k!=j && matrix[j+x*k]!=0)
+				{
+				subRow(k+1, i+1, matrix[j+x*k]); 
+				}
+
+			}
+			getBeef();
+			break;
+
+
+		}
 	}
-}
+}}
 void Matrix::addRow(int dest, int operand, int factor)
 {
 	dest--;
@@ -101,7 +134,7 @@ void Matrix::scale(int row, double factor)
     
 	int i;
 	for (i=0; i<x; i++)
-		matrix[row*x+i] = matrix[row*x+i]*factor;
+		matrix[row*x+i] = matrix[row*x+i]*(factor+0.0);
 }
 
 void Matrix::divide(int row, double factor)
@@ -131,43 +164,48 @@ void Matrix::multiply(int row, int factor)
 
 void doMath()
 {
-	Matrix* e = new Matrix(4,5);
+	Matrix* e = new Matrix(3,4);
     
-	int array[] = {1, 1, 1, 3, 1};
-	e->setRow(0, array);
-	int array2[] = {1, -1, -3, -1, -1};
-	e->setRow(1, array2);
-	int array3[] = {2, 2, 2, 7, 1};
-	e->setRow(2, array3);
-	int array4[] = {-2, 0, 2, -4, 2};
-	e->setRow(3, array4);
+//	int array[] = {1, 1, 1, 3, 1};
+//	e->setRow(0, array);
+//	int array2[] = {1, -1, -3, -1, -1};
+//	e->setRow(1, array2);
+//	int array3[] = {2, 2, 2, 7, 1};
+//	e->setRow(2, array3);
+//	int array4[] = {-2, 0, 2, -4, 2};
+//	e->setRow(3, array4);
+
+	float array[] = {1,2,3,1,2,2,2,1,1,2,-2,1};
+	e->setMatrix(array);
 
 	e->copy();
+
+	e->solve();
+	e->getBeef();
+
+//	e->subRow(2, 1, 1);
+//	e->subRow(3, 1, 2);
+//	e->addRow(4, 1, 2);
+//	
 //	e->getBeef();
-
-	e->subRow(2, 1, 1);
-	e->subRow(3, 1, 2);
-	e->addRow(4, 1, 2);
-	
-	e->getBeef();
-
-	e->subRow(1, 3, 3);
-	e->addRow(2, 3, 4);
-	e->subRow(4, 3, 2);
-    
-	e->getBeef();
-    
-	e->divide(4, 2);
-	e->getBeef();
-	e->subRow(1, 4, 1);
-	e->addRow(2, 4, 2);
-	
-	e->getBeef();
-	e->getBeef();
+//
+//	e->subRow(1, 3, 3);
+//	e->addRow(2, 3, 4);
+//	e->subRow(4, 3, 2);
+//    
+//	e->getBeef();
+//    
+//	e->divide(4, 2);
+//	e->getBeef();
+//	e->subRow(1, 4, 1);
+//	e->addRow(2, 4, 2);
+//	
+//	e->getBeef();
+//	e->getBeef();
     
 	
 }
-void Matrix::setRow(int row, int* rowContents)
+void Matrix::setRow(int row, float* rowContents)
 {
 	int i;
 	for (i=0; i<x; i++)
@@ -182,9 +220,9 @@ Matrix::Matrix(int y, int x)
 {
 	this->y = y;
 	this->x = x;
-	matrix = new int[y*x];
+	matrix = new float[y*x];
     reset();
-    	oldmatrix = new int[y*x]; 
+    	oldmatrix = new float[y*x]; 
     
 }
 
@@ -220,6 +258,7 @@ void Matrix::printContents()
 		for (j=0; j<x; j++)
 		{
 			std::stringstream convert;
+			if (oldmatrix[x*i+j] == 0) oldmatrix[x*i+j] = 0;
 			convert << (oldmatrix[x*i+j]);
 			
 			std::string s = convert.str();
