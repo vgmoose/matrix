@@ -14,14 +14,14 @@ public:
     
 	void reset();
 	Matrix(int y, int x);
-	void multiply(int row, int factor);
-	void scale(int row, double factor);
-	void divide(int row, double factor);
-	void addRow(int dest, int operand, int factor);
+	void multiply(int row,  float factor);
+	void scale(int row,  float factor);
+	void divide(int row,  float factor);
+	void addRow(int dest, int operand,  float factor);
 	void getBeef();
 	void printContents();
 	void setRow(int row, float* rowContents);
-	void subRow(int dest, int operand, int factor);
+	void subRow(int dest, int operand,  float factor);
 	void solve();
 	void copy();
 	void setMatrix(float* incoming);
@@ -91,7 +91,7 @@ void Matrix::solve()
 			}
 			for (k=0; k<y; k++)
 			{
-				if (k!=j && matrix[j+x*k]!=0)
+				if (k!=i && matrix[j+x*k]!=0)
 				{
 				subRow(k+1, i+1, matrix[j+x*k]); 
 				}
@@ -104,7 +104,7 @@ void Matrix::solve()
 		}
 	}
 }}
-void Matrix::addRow(int dest, int operand, int factor)
+void Matrix::addRow(int dest, int operand, float factor)
 {
 	dest--;
 	operand--;
@@ -123,12 +123,12 @@ void Matrix::addRow(int dest, int operand, int factor)
 	steps[dest] = s;
 }
 
-void Matrix::subRow(int dest, int operand, int factor)
+void Matrix::subRow(int dest, int operand, float factor)
 {
 	addRow(dest, operand, -factor);
 }
 
-void Matrix::scale(int row, double factor)
+void Matrix::scale(int row, float factor)
 {
 	row--;
     
@@ -137,7 +137,7 @@ void Matrix::scale(int row, double factor)
 		matrix[row*x+i] = matrix[row*x+i]*(factor+0.0);
 }
 
-void Matrix::divide(int row, double factor)
+void Matrix::divide(int row, float factor)
 {
 	scale(row, 1/factor);
     
@@ -150,7 +150,7 @@ void Matrix::divide(int row, double factor)
 
 }
 
-void Matrix::multiply(int row, int factor)
+void Matrix::multiply(int row, float factor)
 {
 	scale(row, factor);
     
@@ -164,20 +164,22 @@ void Matrix::multiply(int row, int factor)
 
 void doMath()
 {
-	Matrix* e = new Matrix(3,4);
-    
-//	int array[] = {1, 1, 1, 3, 1};
+ 	Matrix* e = new Matrix(5,6);   
+//	Matrix* e = new Matrix(3,4);
+	
+//	float array[] = {1, 1, 1, 3, 1};
 //	e->setRow(0, array);
-//	int array2[] = {1, -1, -3, -1, -1};
+//	float array2[] = {1, -1, -3, -1, -1};
 //	e->setRow(1, array2);
-//	int array3[] = {2, 2, 2, 7, 1};
+//	float array3[] = {2, 2, 2, 7, 1};
 //	e->setRow(2, array3);
-//	int array4[] = {-2, 0, 2, -4, 2};
+//	float array4[] = {-2, 0, 2, -4, 2};
 //	e->setRow(3, array4);
 
-	float array[] = {1,2,3,1,2,2,2,1,1,2,-2,1};
+	//float array[] = {1,2,3,1,2,2,2,1,1,2,-2,1};
+	//e->setMatrix(array);
+	float array[] = {2, 4, 3, 5, 6, 37, 4, 8, 7, 5, 2, 74, -2, -4, 3, 4, -5, 20, 1, 2, 2, -1, 2, 26, 5, -10, 4, 6, 4, 24, 5, -10, 4, 6, 4, 24};
 	e->setMatrix(array);
-
 	e->copy();
 
 	e->solve();
