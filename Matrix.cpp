@@ -81,12 +81,12 @@ void Matrix::solve()
 		{
 			if (matrix[j+x*i] != 0)
 			{
-			int a = matrix[j+x*i];
+			float a = matrix[j+x*i];
 			if (a!=1)
 			{
 				divide(i+1,a);
 				//i--;
-				printf("%i", i);
+				//printf("%i", i);
 				getBeef();
 			}
 			for (k=0; k<y; k++)
@@ -263,8 +263,8 @@ void Matrix::printContents()
 			if (oldmatrix[x*i+j] == 0) oldmatrix[x*i+j] = 0;
 			convert << (oldmatrix[x*i+j]);
 			
-			std::string s = convert.str();
-			while (s.size() <= 3)
+			std::string s = convert.str().substr(0,4);
+			while (s.size() <= 4)
 			{
 				s = " " + s;
 			}
