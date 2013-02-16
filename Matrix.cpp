@@ -1,6 +1,16 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <vector>
+
+template <class T>
+bool from_string(T& t,
+                 const std::string& s,
+                 std::ios_base& (*f)(std::ios_base&))
+{
+    std::istringstream iss(s);
+    return !(iss >> f >> t).fail();
+}
 
 class Matrix
 {
@@ -14,6 +24,7 @@ public:
     
 	void reset();
 	Matrix(int y, int x);
+    Matrix(std::vector<std::vector<float> > v);
 	void multiply(int row,  float factor);
 	void scale(int row,  float factor);
 	void divide(int row,  float factor);
@@ -24,8 +35,56 @@ public:
 	void subRow(int dest, int operand,  float factor);
 	void solve();
 	void copy();
+        
 	void setMatrix(float* incoming);
+
 };
+
+Matrix* readMatrixFromInput()
+{
+    std::string s;
+    std::vector<std::vector<float> > vmatrix;
+    
+    
+    do {
+        std::vector<float> v;
+        std::getline(std::cin, s);
+        
+//        line >> s;
+        if (s == "") break;
+        
+        while (s.size()!=0)
+        {
+//            std::cout << s << std::endl;
+            float f;
+            from_string<float>(f, s, std::dec);
+            v.push_back(f);
+                        
+            // find the substring
+            int x;
+            for (x=0; x<s.size(); x++)
+            {
+//                std::cout << s[x] << std::endl;
+                if (s[x] == ' ')
+                {
+                    s = s.substr(x+1);
+                    break;
+                }
+                else if (x+1==s.size())
+                {
+                    s = "";
+                }
+            }
+        }
+        vmatrix.push_back(v);
+    } while (true);
+    
+    return new Matrix(vmatrix);
+    
+    //    std::cout << s;
+}
+
+
 
 void Matrix::setMatrix(float* incoming)
 {
@@ -217,6 +276,30 @@ void Matrix::setRow(int row, float* rowContents)
 	}
 }
 
+Matrix::Matrix(std::vector<std::vector<float> > v)
+{
+//    Matrix(v.size(), v[0].size());
+    int i, j;
+
+    x = v[0].size();
+    y = v.size();
+    
+	matrix = new float[y*x];
+    reset();
+    oldmatrix = new float[y*x];
+    
+    for (i=0; i<v.size(); i++)
+    {
+        for (j=0; j<v[0].size(); j++)
+            matrix[i*x+j] = v[i][j];
+//            std::cout << v[i][j];
+//        std::cout << std::endl;
+    }
+    
+    copy();
+    getBeef();
+    
+}
 
 Matrix::Matrix(int y, int x)
 {
@@ -224,13 +307,17 @@ Matrix::Matrix(int y, int x)
 	this->x = x;
 	matrix = new float[y*x];
     reset();
-    	oldmatrix = new float[y*x]; 
+    oldmatrix = new float[y*x]; 
     
 }
-
+void test()
+{
+    
+}
 int main()
 {
-	doMath();
+    readMatrixFromInput();
+//	doMath();
     
 }
 
