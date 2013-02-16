@@ -2,7 +2,7 @@ build:	Matrix.cpp
 	clang++ Matrix.cpp -o Matrix
 
 run:	Matrix
-	./Matrix
+	@./Matrix
 
 vim:	Matrix.cpp
 	vim Matrix.cpp

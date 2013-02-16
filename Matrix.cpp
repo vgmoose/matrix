@@ -213,7 +213,7 @@ void Matrix::divide(int row, float factor)
 
 void mainHub()
 {
-//    cout << 
+    cout << "Welcome to the Easy Matrix Program\nProgrammed by Ricky Ayoub\n\nWhat would you like to do?\n\n1) Manage Variables\t2) RREF Matrix\n3) Add Matrices  \t4) Multiply Matrices\n5) Find Determinant\t6) Find Inverse\n\nEnter the number of what you would like to do: \n\n";
 }
 
 void Matrix::multiply(int row, float factor)
@@ -323,8 +323,9 @@ void test()
 }
 int main()
 {
-    readMatrixFromInput();
-//	doMath();
+//    mainHub();
+//    readMatrixFromInput()m;
+	doMath();
     
 }
 
