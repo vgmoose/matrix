@@ -3,9 +3,11 @@
 #include <sstream>
 #include <vector>
 
+using namespace std;
+
 template <class T>
 bool from_string(T& t,
-                 const std::string& s,
+                 const string& s,
                  std::ios_base& (*f)(std::ios_base&))
 {
     std::istringstream iss(s);
@@ -20,7 +22,7 @@ public:
 	int x, y;
 	float* oldmatrix;
 	
-    std::string* steps;
+    string* steps;
     
 	void reset();
 	Matrix(int y, int x);
@@ -42,20 +44,20 @@ public:
 
 Matrix* readMatrixFromInput()
 {
-    std::string s;
+    string s;
     std::vector<std::vector<float> > vmatrix;
     
     
     do {
         std::vector<float> v;
-        std::getline(std::cin, s);
+        std::getline(cin, s);
         
 //        line >> s;
         if (s == "") break;
         
         while (s.size()!=0)
         {
-//            std::cout << s << std::endl;
+//            cout << s << endl;
             float f;
             from_string<float>(f, s, std::dec);
             v.push_back(f);
@@ -64,7 +66,7 @@ Matrix* readMatrixFromInput()
             int x;
             for (x=0; x<s.size(); x++)
             {
-//                std::cout << s[x] << std::endl;
+//                cout << s[x] << endl;
                 if (s[x] == ' ')
                 {
                     s = s.substr(x+1);
@@ -81,7 +83,7 @@ Matrix* readMatrixFromInput()
     
     return new Matrix(vmatrix);
     
-    //    std::cout << s;
+    //    cout << s;
 }
 
 
@@ -95,7 +97,7 @@ void Matrix::setMatrix(float* incoming)
 	}
 }
 // This method is from rosetta code
-std::string to_roman(int value)
+string to_roman(int value)
 {
     struct romandata_t { int value; char const* numeral; };
     static romandata_t const romandata[] =
@@ -114,7 +116,7 @@ std::string to_roman(int value)
         1, "I",
         0, NULL }; // end marker
     
-    std::string result;
+    string result;
     for (romandata_t const* current = romandata; current->value > 0; ++current)
     {
         while (value >= current->value)
@@ -128,7 +130,7 @@ std::string to_roman(int value)
 
 void Matrix::reset()
 {
-	steps = new std::string[y];
+	steps = new string[y];
 }
 
 void Matrix::solve()
@@ -171,13 +173,13 @@ void Matrix::addRow(int dest, int operand, float factor)
 	for (i=0; i<x; i++)
 		matrix[dest*x+i] = matrix[dest*x+i] + factor*matrix[operand*x+i];
     
-    std::stringstream build;
+    stringstream build;
 
 	if (factor > 0) build << " +";
     else build << " ";
     
 	build << factor << " " << to_roman(operand+1);
-	std::string s = build.str();
+	string s = build.str();
     
 	steps[dest] = s;
 }
@@ -200,23 +202,28 @@ void Matrix::divide(int row, float factor)
 {
 	scale(row, 1/factor);
     
-    std::stringstream build;
+    stringstream build;
         
 	build << " /" << factor;
-	std::string s = build.str();
+	string s = build.str();
     
 	steps[row-1] = s;
 
+}
+
+void mainHub()
+{
+//    cout << 
 }
 
 void Matrix::multiply(int row, float factor)
 {
 	scale(row, factor);
     
-    std::stringstream build;
+    stringstream build;
     
 	build << " *" << factor;
-	std::string s = build.str();
+	string s = build.str();
     
 	steps[row-1] = s;
 }
@@ -292,8 +299,8 @@ Matrix::Matrix(std::vector<std::vector<float> > v)
     {
         for (j=0; j<v[0].size(); j++)
             matrix[i*x+j] = v[i][j];
-//            std::cout << v[i][j];
-//        std::cout << std::endl;
+//            cout << v[i][j];
+//        cout << endl;
     }
     
     copy();
@@ -346,20 +353,20 @@ void Matrix::printContents()
 		printf("[ ");
 		for (j=0; j<x; j++)
 		{
-			std::stringstream convert;
+			stringstream convert;
 			if (oldmatrix[x*i+j] == 0) oldmatrix[x*i+j] = 0;
 			convert << (oldmatrix[x*i+j]);
 			
-			std::string s = convert.str().substr(0,4);
+			string s = convert.str().substr(0,4);
 			while (s.size() <= 4)
 			{
 				s = " " + s;
 			}
             
-			std::cout << s;
+			cout << s;
 		}
 
-		std::cout << "]" << steps[i] << std::endl;
+		cout << "]" << steps[i] << endl;
         
 	}
     reset();
