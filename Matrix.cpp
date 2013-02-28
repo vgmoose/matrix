@@ -2,6 +2,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <cstdlib>
 
 using namespace std;
 
@@ -159,10 +160,11 @@ void Matrix::solve()
 					if (k!=i && matrix[j+x*k]!=0)
 					{
 						subRow(k+1, i+1, matrix[j+x*k]); 
+						getBeef();	
 					}
 
 				}
-				getBeef();
+	//			getBeef();
 				break;
 
 
