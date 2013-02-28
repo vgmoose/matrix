@@ -44,7 +44,8 @@ class Matrix
 
 Matrix* readMatrixFromInput()
 {
-	cout << "\nInput the Matrix values. \nSeparate columns with a space, and use a linebreak for the next row.\n\n"; 
+	cout << "\nInput the Matrix values. \nSeparate columns with a space, and use a linebreak for the next row.\nWhen you're all done, enter another linebreak on a blank line.\n\n"; 
+
 
 	string s;
 	std::vector<std::vector<float> > vmatrix;
@@ -192,7 +193,7 @@ void Matrix::addRow(int dest, int operand, float factor)
 void Matrix::subRow(int dest, int operand, float factor)
 {
 	addRow(dest, operand, -factor);
-}
+} 
 
 void Matrix::scale(int row, float factor)
 {
@@ -218,19 +219,39 @@ void Matrix::divide(int row, float factor)
 
 void mainHub()
 {
-	cout << "Welcome to the Easy Matrix Program\nProgrammed by Ricky Ayoub\n\nWhat would you like to do?\n\n1) Manage Variables\t2) RREF Matrix\n3) Add Matrices  \t4) Multiply Matrices\n5) Find Determinant\t6) Find Inverse\n\nEnter the number of what you would like to do: \n\n";
 
-	int a;
-	cin >> a;
+	cout << "Welcome to the Easy Matrix Program\nProgrammed by Ricky Ayoub\n\nWhat would you like to do?\n\n1) Manage Variables\t2) RREF Matrix\n3) Add Matrices  \t4) Multiply Matrices\n5) Find Determinant\t6) Find Inverse\n\nEnter the number of what you would like to do: ";
 
-	// dummy geline
+	while (true)
+	{
+	
+	int a;	
 	string str;
 	getline(cin, str);
+
+	a = atoi(str.c_str());
+
+
 	if (a==2)
 	{
 		Matrix* m = readMatrixFromInput();
 		m->solve();
+		cout << "\n\nAll done!\n";
+		break;
 	}
+	else if (a==1 || (a>2 && a<7))
+	{
+		cout << "\nFeature not yet implemented.\n";
+	}
+	else
+	{
+		cout << "\nInvalid selection.\n";
+	}
+
+	cout << "Try again: ";
+	
+	}
+
 }
 
 void Matrix::multiply(int row, float factor)
